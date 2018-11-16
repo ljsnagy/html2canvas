@@ -111,28 +111,40 @@ export const parseDocumentSize = (document: Document): Bounds => {
     return new Bounds(0, 0, width, height);
 };
 
-export const parsePathForBorder = (curves: BoundCurves, borderSide: BorderSide): Path => {
+export const parsePathForBorder = (
+    curves: BoundCurves,
+    borderWidth: number,
+    borderSide: BorderSide,
+    overlapNext: boolean
+): Path => {
+    const overlap = overlapNext ? borderWidth : 0;
     switch (borderSide) {
         case TOP:
             return createPathFromCurves(
                 curves.topLeftOuter,
                 curves.topLeftInner,
                 curves.topRightOuter,
-                curves.topRightInner
+                curves.topRightInner instanceof Vector
+                    ? curves.topRightInner.addX(overlap)
+                    : curves.topRightInner
             );
         case RIGHT:
             return createPathFromCurves(
                 curves.topRightOuter,
                 curves.topRightInner,
                 curves.bottomRightOuter,
-                curves.bottomRightInner
+                curves.bottomRightInner instanceof Vector
+                    ? curves.bottomRightInner.addY(overlap)
+                    : curves.bottomRightInner
             );
         case BOTTOM:
             return createPathFromCurves(
                 curves.bottomRightOuter,
                 curves.bottomRightInner,
                 curves.bottomLeftOuter,
-                curves.bottomLeftInner
+                curves.bottomLeftInner instanceof Vector
+                    ? curves.bottomLeftInner.subtractX(overlap)
+                    : curves.bottomLeftInner
             );
         case LEFT:
         default:
@@ -140,7 +152,9 @@ export const parsePathForBorder = (curves: BoundCurves, borderSide: BorderSide):
                 curves.bottomLeftOuter,
                 curves.bottomLeftInner,
                 curves.topLeftOuter,
-                curves.topLeftInner
+                curves.topLeftInner instanceof Vector
+                    ? curves.topLeftInner.subtractY(overlap)
+                    : curves.topLeftInner
             );
     }
 };

@@ -186,12 +186,13 @@ export default class Renderer {
                 });
             }
 
-            container.style.border.forEach((border, side) => {
+            container.style.border.forEach((border, side, borders) => {
                 if (
                     border.borderStyle !== BORDER_STYLE.NONE &&
                     !border.borderColor.isTransparent()
                 ) {
-                    this.renderBorder(border, side, container.curvedBounds);
+                    const next = borders[(side + 1) % 4];
+                    this.renderBorder(border, side, next, container.curvedBounds);
                 }
             });
         };
@@ -287,8 +288,12 @@ export default class Renderer {
         }
     }
 
-    renderBorder(border: Border, side: BorderSide, curvePoints: BoundCurves) {
-        this.target.drawShape(parsePathForBorder(curvePoints, side), border.borderColor);
+    renderBorder(border: Border, side: BorderSide, next: Border, curvePoints: BoundCurves) {
+        const overlapNext = next.borderColor.isOpaque();
+        this.target.drawShape(
+            parsePathForBorder(curvePoints, border.borderWidth, side, overlapNext),
+            border.borderColor
+        );
     }
 
     renderStack(stack: StackingContext) {

@@ -85,6 +85,10 @@ export default class Color {
         this.a = a;
     }
 
+    isOpaque(): boolean {
+        return !this.a || this.a === 255;
+    }
+
     isTransparent(): boolean {
         return this.a === 0;
     }

@@ -21,4 +21,20 @@ export default class Vector implements Drawable<0> {
             }
         }
     }
+
+    addX(x: number) {
+        return new Vector(this.x + x, this.y);
+    }
+
+    addY(y: number) {
+        return new Vector(this.x, this.y + y);
+    }
+
+    subtractX(x: number) {
+        return this.addX(-x);
+    }
+
+    subtractY(y: number) {
+        return this.addY(-y);
+    }
 }
