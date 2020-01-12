@@ -213,7 +213,7 @@ export class CanvasRenderer {
                                 Math.round(text.bounds.left - 0.5),
                                 Math.round(text.bounds.top + baseline + styles.fontSize.number / 15),
                                 Math.round(text.bounds.width + 0.5),
-                                Math.ceil(styles.fontSize.number / 10)
+                                Math.max(Math.floor(styles.fontSize.number / 10), 1)
                             );
 
                             break;
