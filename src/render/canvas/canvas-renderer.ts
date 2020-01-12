@@ -207,13 +207,13 @@ export class CanvasRenderer {
                     switch (textDecorationLine) {
                         case TEXT_DECORATION_LINE.UNDERLINE:
                             // Draws a line at the baseline of the font
-                            // TODO As some browsers display the line as more than 1px if the font-size is big,
-                            // need to take that into account both in position and size
+                            // Position and thickness mimics that of Chrome as it is the most straightforward
+                            // TODO: Skip text descenders
                             this.ctx.fillRect(
-                                text.bounds.left,
-                                Math.round(text.bounds.top + baseline),
-                                text.bounds.width,
-                                1
+                                Math.round(text.bounds.left - 0.5),
+                                Math.round(text.bounds.top + baseline + styles.fontSize.number / 15),
+                                Math.round(text.bounds.width + 0.5),
+                                Math.ceil(styles.fontSize.number / 10)
                             );
 
                             break;
