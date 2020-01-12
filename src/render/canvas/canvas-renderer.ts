@@ -719,7 +719,11 @@ export class CanvasRenderer {
         let side = 0;
         for (const border of borders) {
             if (border.style !== BORDER_STYLE.NONE && !isTransparent(border.color)) {
-                await this.renderBorder(border.color, side, paint.curves);
+                // HACK: Render border 3 times to fix intersection tearing.
+                // THIS ONLY WORKS FOR NON-TRANSPARENT BORDERS
+                for (let i = 0; i < 3; i++) {
+                    await this.renderBorder(border.color, side, paint.curves);
+                }
             }
             side++;
         }
