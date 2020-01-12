@@ -211,7 +211,7 @@ var CanvasRenderer = /** @class */ (function () {
                                     // Draws a line at the baseline of the font
                                     // Position and thickness mimics that of Chrome as it is the most straightforward
                                     // TODO: Skip text descenders
-                                    _this.ctx.fillRect(Math.round(text.bounds.left - 0.5), Math.round(text.bounds.top + baseline + styles.fontSize.number / 15), Math.round(text.bounds.width + 0.5), Math.ceil(styles.fontSize.number / 10));
+                                    _this.ctx.fillRect(Math.round(text.bounds.left - 0.5), Math.round(text.bounds.top + baseline + styles.fontSize.number / 15), Math.round(text.bounds.width + 0.5), Math.max(Math.floor(styles.fontSize.number / 10), 1));
                                     break;
                                 case 2 /* OVERLINE */:
                                     _this.ctx.fillRect(text.bounds.left, Math.round(text.bounds.top), text.bounds.width, 1);
